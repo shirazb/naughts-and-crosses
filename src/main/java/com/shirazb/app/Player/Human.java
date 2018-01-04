@@ -51,14 +51,14 @@ public class Human implements Player {
                     continue;
                 }
 
-                m = mkMove(x, y);
+                m = mkMove(b, x, y);
         } while (m == null);
 
         return m;
     }
 
-    private Move mkMove(int x, int y) {
-        return 0 <= x && x < Board.getxDim() && 0 <= y && y < Board.getyDim() ?
+    private Move mkMove(Board b, int x, int y) {
+        return 0 <= x && x < b.getxDim() && 0 <= y && y < b.getyDim() ?
                 new Move(x, y) :
                 null;
     }

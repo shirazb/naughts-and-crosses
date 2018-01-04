@@ -4,15 +4,20 @@ import com.shirazb.app.Player.Player;
 import com.shirazb.app.Player.PlayerFactory;
 
 public class Game {
-    private Player human = PlayerFactory.human("Human", "O");
-    private Player comp = PlayerFactory.human("Comp", "X"); // For now
-    private Board board = new Board(human, comp);
+    private Player playerOne = PlayerFactory.human("Human", "O");
+    private Player playerTwo = PlayerFactory.human("Comp", "X"); // For now
+    private Board board;
+
+    public Game(int boardSize, String playerOneName, String playerTwoName) {
+        this.playerOne = PlayerFactory.human(playerOneName, "O");
+        this.playerTwo = PlayerFactory.human(playerTwoName, "X");
+        this.board = new Board(boardSize, this.playerOne, this.playerTwo);
+    }
 
     public void play() {
-        System.out.println("Welcome to Os and Xs.\n");
         System.out.println(board);
 
-        Player[] players = new Player[] { human, comp };
+        Player[] players = new Player[] { playerOne, playerTwo };
         final int numPlayers = players.length;
 
         for (int i = 0; !board.isGameOver(); i = (i + 1) % numPlayers) {

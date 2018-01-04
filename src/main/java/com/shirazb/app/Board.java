@@ -5,22 +5,14 @@ import com.shirazb.app.Player.Player;
 import java.util.*;
 
 public class Board {
-    private static final int X_DIM = 3;
-    private static final int Y_DIM = 3;
-
-    public static int getxDim() {
-        return X_DIM;
-    }
-
-    public static int getyDim() {
-        return Y_DIM;
-    }
+    private final int X_DIM;
+    private final int Y_DIM;
 
     /*
     The game board. Initialised to 0 and filled with player IDs in the
     positions they have made moves.
      */
-    private int[][] board = new int[Y_DIM][X_DIM];
+    private int[][] board;
 
     /*
     The set of players playing on this board.
@@ -50,12 +42,25 @@ public class Board {
         return this.isGameOver;
     }
 
-    public Board(Player... players) {
+    public Board(int boardSize, Player... players) {
+        // TODO: Only permits square board.
+        X_DIM = boardSize;
+        Y_DIM = boardSize;
+        this.board = new int[Y_DIM][X_DIM];
+
         Arrays.stream(players).forEach(
                 p -> {
                     this.players.put(p.getId(), p);
                 }
         );
+    }
+
+    public int getxDim() {
+        return X_DIM;
+    }
+
+    public int getyDim() {
+        return Y_DIM;
     }
 
     /**
@@ -79,8 +84,8 @@ public class Board {
         final int y = m.getY();
 
         // Assert move is valid, as is already properly checked in mkMove().
-        assert 0 <= x && x < Board.getxDim() &&
-                0 <= y && y < Board.getyDim() :
+        assert 0 <= x && x < this.getxDim() &&
+                0 <= y && y < this.getyDim() :
                 "playMove(): Invalid move: " + m;
 
         // Assert not given player that doesn't exist.
