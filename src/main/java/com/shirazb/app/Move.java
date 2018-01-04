@@ -35,4 +35,12 @@ public class Move {
         result = 31 * result + y;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Move{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

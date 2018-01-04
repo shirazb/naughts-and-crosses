@@ -3,6 +3,7 @@ package com.shirazb.app.Player;
 import com.shirazb.app.Board;
 import com.shirazb.app.Move;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Human implements Player {
@@ -19,17 +20,38 @@ public class Human implements Player {
         this.id = id;
     }
 
+    /**
+     * Reads in two integers from the user, representing the co-ordinates of
+     * their next move. Keeps asking for a move until the move is valid.
+     * @param b The game board.
+     * @return The next move as given by the user.
+     */
     public Move nextMove(Board b) {
-        Move m;
+        Move m = null;
         Scanner s = new Scanner(System.in);
 
         do {
             System.out.println("Please enter a move represented as \'<row> " +
                     "<col>\'");
 
-            int x = s.nextInt();
-            int y = s.nextInt();
-            m = mkMove(x, y);
+                int x;
+                int y;
+
+                if (s.hasNextInt()) {
+                    x = s.nextInt();
+                } else {
+                    s.next();
+                    continue;
+                }
+
+                if (s.hasNextInt()) {
+                    y = s.nextInt();
+                } else {
+                    s.next();
+                    continue;
+                }
+
+                m = mkMove(x, y);
         } while (m == null);
 
         return m;
@@ -51,5 +73,20 @@ public class Human implements Player {
 
     public String getSymbol() {
         return symbol;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Human human = (Human) o;
+
+        return id == human.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

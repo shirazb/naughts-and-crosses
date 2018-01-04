@@ -68,7 +68,22 @@ public class Board {
         Will check if the move results in the game finishing. If so, sets
         isGameOver and winner.
          */
-        // TODO: Check move valid, check player id valid
+
+        // Assert move is valid, as is already properly checked in mkMove().
+        assert 0 <= m.getX() && m.getX() < Board.getxDim() &&
+                0 <= m.getY() && m.getY() < Board.getyDim() :
+                "playMove(): Invalid move: " + m;
+
+        // Assert not given player that doesn't exist.
+        assert players.containsKey(p.getId()) : "playMove(): Given player not" +
+                " in set of players: " + p;
+
+        // Assert that player ID is valid.
+        assert 0 < p.getId() : "playMove(): Invalid player ID: " + p;
+
+        board[m.getY()][m.getX()] = p.getId();
+
+        // TODO: Check won.
     }
 
     @Override
