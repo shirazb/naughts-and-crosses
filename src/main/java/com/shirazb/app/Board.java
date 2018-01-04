@@ -40,6 +40,12 @@ public class Board {
      */
     private boolean isGameOver = false;
 
+    /*
+    Iterated after each call to playMove(). Used to quickly check if there
+    has been a draw by comparing to size of board (no spaces left).
+     */
+    private int playedMoves = 0;
+
     public boolean isGameOver() {
         return this.isGameOver;
     }
@@ -69,9 +75,12 @@ public class Board {
         isGameOver and winner.
          */
 
+        final int x = m.getX();
+        final int y = m.getY();
+
         // Assert move is valid, as is already properly checked in mkMove().
-        assert 0 <= m.getX() && m.getX() < Board.getxDim() &&
-                0 <= m.getY() && m.getY() < Board.getyDim() :
+        assert 0 <= x && x < Board.getxDim() &&
+                0 <= y && y < Board.getyDim() :
                 "playMove(): Invalid move: " + m;
 
         // Assert not given player that doesn't exist.
@@ -81,9 +90,23 @@ public class Board {
         // Assert that player ID is valid.
         assert 0 < p.getId() : "playMove(): Invalid player ID: " + p;
 
-        board[m.getY()][m.getX()] = p.getId();
+        board[y][x] = p.getId();
 
-        // TODO: Check won.
+        // Check for draw.
+        playedMoves += 1;
+        if (playedMoves >= X_DIM * Y_DIM) {
+            // Keep winner null, set game over.
+            assert winner == null : "Board.playMove(): Draw detected but " +
+                    "winner already set to: " + p;
+            isGameOver = true;
+            return;
+        }
+
+        // Check player p has won.
+        if (hasWon(x, y, p.getId())) {
+            isGameOver = true;
+            winner = p;
+        }
     }
 
     @Override
@@ -123,5 +146,55 @@ public class Board {
     public String result() {
         // TODO: Check that isGameOver
         return winner == null ? "Draw" : "Winner is " + winner.getName();
+    }
+
+    private boolean hasWon(int x, int y, int id) {
+        assert 0 <= x && x < X_DIM;
+        assert 0 <= y && y < Y_DIM;
+
+        boolean won = true;
+        // Check left-right direction.
+        for (int i = 0; i < X_DIM; i++) {
+            if (board[y][i] != id) {
+                won = false;
+                break;
+            }
+        }
+        if (won) {
+            return true;
+        }
+
+        // Check up-down direction.
+        won = true;
+        for (int i = 0; i < Y_DIM; i++) {
+            if (board[i][x] != id) {
+                won = false;
+                break;
+            }
+        }
+        if (won) {
+            return true;
+        }
+
+        // Check top-left to bottom-right direction.
+        // TODO: Does not check move was on diagonal. Assumes Square board.
+        won = true;
+        for (int i = 0; i < X_DIM; i++) {
+            if (board[i][i] != id) {
+                won = false;
+                break;
+            }
+        }
+
+        // Check bottom-left to top-right direction.
+        won = true;
+        for (int i = 0; i < X_DIM; i++) {
+            if (board[Y_DIM - i - 1][i] != id) {
+                won = false;
+                break;
+            }
+        }
+
+        return won;
     }
 }

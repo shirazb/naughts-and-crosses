@@ -5,7 +5,7 @@ import com.shirazb.app.Player.PlayerFactory;
 
 public class Game {
     private Player human = PlayerFactory.human("Human", "O");
-    private Player comp = PlayerFactory.human("human", "X"); // For now
+    private Player comp = PlayerFactory.human("Comp", "X"); // For now
     private Board board = new Board(human, comp);
 
     public void play() {
