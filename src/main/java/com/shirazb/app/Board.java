@@ -8,6 +8,14 @@ public class Board {
     private static final int X_DIM = 3;
     private static final int Y_DIM = 3;
 
+    public static int getxDim() {
+        return X_DIM;
+    }
+
+    public static int getyDim() {
+        return Y_DIM;
+    }
+
     /*
     The game board. Initialised to 0 and filled with player IDs in the
     positions they have made moves.
@@ -67,21 +75,29 @@ public class Board {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
+        // Top row of dashses.
         for (int i = 0; i < X_DIM; i++) {
             sb.append(" -");
         }
 
         sb.append(System.lineSeparator());
 
+        // For each row.
         for (int[] row : board) {
+            // Start with left pipe.
             sb.append('|');
+            // For each col position.
             for (int pos : row) {
-                sb.append(pos);
+                // Get player in that position by ID and print its symbol.
+                Player p = players.get(pos);
+                String symbol = p == null ? " " : p.getSymbol();
+                sb.append(symbol);
                 sb.append('|');
             }
             sb.append(System.lineSeparator());
         }
 
+        // Bottom row of dashes.
         for (int i = 0; i < X_DIM; i++) {
             sb.append(" -");
         }

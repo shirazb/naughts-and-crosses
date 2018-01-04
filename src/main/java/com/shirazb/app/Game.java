@@ -9,7 +9,8 @@ public class Game {
     private Board board = new Board(human, comp);
 
     public void play() {
-        System.out.println("Welcome to Os and Xs.");
+        System.out.println("Welcome to Os and Xs.\n");
+        System.out.println(board);
 
         Player[] players = new Player[] { human, comp };
         final int numPlayers = players.length;
@@ -19,9 +20,6 @@ public class Game {
             Move m = p.nextMove(board);
             board.playMove(m, p);
             System.out.println(board);
-
-            // FIXME
-            break;
         }
 
         System.out.println("Result: " + board.result());
