@@ -6,4 +6,5 @@ import com.shirazb.app.Move;
 public interface Player {
     public Move nextMove(Board b);
     public int getId();
+    public String getName();
 }

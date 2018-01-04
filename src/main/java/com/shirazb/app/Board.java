@@ -2,25 +2,53 @@ package com.shirazb.app;
 
 import com.shirazb.app.Player.Player;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Board {
     private static final int X_DIM = 3;
     private static final int Y_DIM = 3;
 
-    // TODO: Init to -1
-    private int[][] board = new int[X_DIM][Y_DIM];
+    /*
+    The game board. Initialised to 0 and filled with player IDs in the
+    positions they have made moves.
+     */
+    private int[][] board = new int[Y_DIM][X_DIM];
+
+    /*
+    The set of players playing on this board.
+     */
+    // TODO: Is this appropriate data structure
+    private Map<Integer, Player> players = new HashMap<>();
+
+    /*
+    Initialised to null. playMove() may eventually set this to the winning
+    player.
+     */
     private Player winner = null;
+
+    /*
+    Initialised to false, eventually set to true by playMove() once it
+    detects the game is over.
+     */
     private boolean isGameOver = false;
 
     public boolean isGameOver() {
         return this.isGameOver;
     }
 
+    public Board(Player... players) {
+        Arrays.stream(players).forEach(
+                p -> {
+                    this.players.put(p.getId(), p);
+                }
+        );
+    }
+
     /**
      * Plays the given move by the player, affecting the board accordingly.
      * If the move results in the end of the game, isGameOver() will now
      * return true. result() will return the result of the game.
+     *
      * @param m The move to play.
      * @param p The player that is playing the move.
      */
@@ -37,10 +65,32 @@ public class Board {
 
     @Override
     public String toString() {
-        return Arrays.toString(board);
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < X_DIM; i++) {
+            sb.append(" -");
+        }
+
+        sb.append(System.lineSeparator());
+
+        for (int[] row : board) {
+            sb.append('|');
+            for (int pos : row) {
+                sb.append(pos);
+                sb.append('|');
+            }
+            sb.append(System.lineSeparator());
+        }
+
+        for (int i = 0; i < X_DIM; i++) {
+            sb.append(" -");
+        }
+
+        return sb.toString();
     }
 
     public String result() {
-        return "no results yet";
+        // TODO: Check that isGameOver
+        return winner == null ? "Draw" : "Winner is " + winner.getName();
     }
 }
