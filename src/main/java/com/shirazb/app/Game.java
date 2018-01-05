@@ -4,8 +4,8 @@ import com.shirazb.app.Player.Player;
 import com.shirazb.app.Player.PlayerFactory;
 
 public class Game {
-    private Player playerOne = PlayerFactory.human("Human", "O");
-    private Player playerTwo = PlayerFactory.human("Comp", "X"); // For now
+    private Player playerOne;
+    private Player playerTwo; // For now
     private Board board;
 
     public Game(int boardSize, String playerOneName, String playerTwoName) {

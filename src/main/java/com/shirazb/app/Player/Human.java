@@ -31,8 +31,8 @@ public class Human implements Player {
         Scanner s = new Scanner(System.in);
 
         do {
-            System.out.println("Please enter a move represented as \'<row> " +
-                    "<col>\'");
+            System.out.println(name + ", please enter a move represented as " +
+                    "\'<row> <col>\'");
 
                 int x;
                 int y;

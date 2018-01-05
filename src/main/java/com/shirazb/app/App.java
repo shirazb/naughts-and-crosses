@@ -23,7 +23,7 @@ public class App {
 
     private static int askForBoardSize() {
         int boardSize = DEFAULT_BOARD_SIZE;
-        System.out.println("Board Size as a single integer: ");
+        System.out.println("Board size as a single integer: ");
         if (scanner.hasNextInt()) {
             boardSize = scanner.nextInt();
         } else {
