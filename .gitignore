@@ -24,3 +24,7 @@ hs_err_pid*
 # IntelliJ IDEA files
 .idea
 naughts-and-crosses.iml
+
+# Maven output dir
+target
+
